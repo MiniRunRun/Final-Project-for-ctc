@@ -51,8 +51,8 @@ body {
 
 #get-text {
   position: fixed;
-  top: 15%;          /* Position at the very top */
-  left: 50%;       /* Center horizontally */
+  top: 10%;          /* Position at the very top */
+  left: 10%;       /* Center horizontally */
   transform: translateX(-50%); /* Adjust for element's own width */
   text-align: center; /* Center text within the element */
   z-index: 100;
