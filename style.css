@@ -50,8 +50,7 @@ body {
 }
 
 #get-text {
-  position: fixed;
-  top: 10%;          /* Position at the very top */
+  position: relative;
   left: 10%;       /* Center horizontally */
   transform: translateX(-50%); /* Adjust for element's own width */
   text-align: center; /* Center text within the element */
