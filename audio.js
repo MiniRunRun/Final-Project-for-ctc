@@ -12,8 +12,17 @@ let animationId;
 const minBrightness = 0.8;  // Darkest level (80% black overlay)
 const maxBrightness = 0;    // Brightest level (0% black overlay)
 
-// Click to start/stop
-document.body.addEventListener('click', toggleMicrophone);
+// Initialize audio context on first user interaction
+function initAudioContext() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        // Remove the event listener after first interaction
+        document.body.removeEventListener('click', initAudioContext);
+    }
+}
+
+// Set up initial event listener for audio context
+document.body.addEventListener('click', initAudioContext);
 
 async function toggleMicrophone() {
     if (isRunning) {
@@ -32,17 +41,26 @@ async function toggleMicrophone() {
 }
 
 async function startMicrophone() {
+    // Make sure we have an audio context
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    
     // Request microphone access
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     
-    // Create audio context
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    // Create analyser
     analyser = audioContext.createAnalyser();
     analyser.fftSize = 256;
     
     // Connect microphone to analyser
     microphone = audioContext.createMediaStreamSource(stream);
     microphone.connect(analyser);
+    
+    // Resume audio context if suspended
+    if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+    }
     
     // Start processing audio
     processAudio();
@@ -52,7 +70,9 @@ function stopMicrophone() {
     if (microphone && audioContext) {
         microphone.disconnect();
         cancelAnimationFrame(animationId);
-        audioContext.close();
+        if (audioContext.state !== 'closed') {
+            audioContext.close();
+        }
     }
     isRunning = false;
     overlay.style.backgroundColor = `rgba(0, 0, 0, ${minBrightness})`;
@@ -86,3 +106,13 @@ function processAudio() {
 
 // Initial state
 overlay.style.backgroundColor = `rgba(0, 0, 0, ${minBrightness})`;
+
+// Update the click handler to properly initialize and toggle
+document.body.addEventListener('click', function() {
+    if (!audioContext) {
+        initAudioContext();
+        statusElement.textContent = 'Audio ready. Click again to start microphone.';
+    } else {
+        toggleMicrophone();
+    }
+});
