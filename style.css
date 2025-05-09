@@ -50,8 +50,9 @@ body {
 }
 
 #get-text {
-  position: relative;
-  left: 10%;       /* Center horizontally */
+  position: absolute;
+  top: 40px;       /* Center horizontally */
+  left: 250px;       /* Center horizontally */
   transform: translateX(-50%); /* Adjust for element's own width */
   text-align: center; /* Center text within the element */
   z-index: 100;
