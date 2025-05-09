@@ -6,6 +6,11 @@ let floorLevel;
 let minGap = 5; // Minimum gap between stacked words
 let startTime; // Track when sketch started
 
+// Timer variables
+let timerInterval;
+let seconds = 0;
+let timerStarted = false;
+
 function setup() {
     let canvas = createCanvas(windowWidth, windowHeight);
     canvas.position(0, 0);
@@ -15,17 +20,31 @@ function setup() {
     floorLevel = height - 20;
     startTime = millis(); // Record start time
     
+    // Initialize timer display
+    const timerElement = document.createElement('div');
+    timerElement.id = 'timer';
+    timerElement.textContent = '00:00';
+    document.body.appendChild(timerElement);
+    
     document.getElementById('submit-btn').addEventListener('click', function() {
         const inputText = document.getElementById('user-text').value.trim();
         if (inputText) {
+            // Reset timer when new text is submitted
+            resetTimer();
+            
             // Add new words to pool (split by spaces and filter empty strings)
-            wordPool = wordPool.concat(inputText.split(/\s+/).filter(word => word.length > 0));
+            wordPool = wordPool.concat(inputText.split(/\s+/).filter(word => word.length > 0);
             document.getElementById('user-text').value = '';
         }
     });
 }
 
 function draw() {
+    // Start timer when first word appears and timer hasn't started yet
+    if (fallingWords.length > 0 && !timerStarted) {
+        startTimer();
+    }
+    
     background(0, 0, 0, 15); // Semi-transparent for trail effect
     
     // Draw floor only for first 10 seconds
@@ -82,6 +101,32 @@ function draw() {
         noStroke();
         text(word.text, word.x + 10, word.y + 10);
     }
+}
+
+// Timer functions
+function startTimer() {
+    if (!timerInterval) {
+        timerStarted = true;
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+}
+
+function updateTimer() {
+    seconds++;
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    document.getElementById('timer').textContent = 
+        `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+function resetTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    seconds = 0;
+    timerStarted = false;
+    document.getElementById('timer').textContent = '00:00';
 }
 
 function checkCollision(fallingWord) {
