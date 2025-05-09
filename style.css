@@ -5,18 +5,7 @@ body {
   transition: background-color 0.1s;
 }
 
-#timer {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  color: white;
-  font-size: 24px;
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 10px 20px;
-  border-radius: 10px;
-  z-index: 100;
-  font-family: monospace;
-}
+
 
 #overlay {
   position: fixed;
