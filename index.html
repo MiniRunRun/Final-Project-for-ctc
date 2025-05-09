@@ -176,6 +176,7 @@
         let stackedWords = [];
         let floorLevel;
         let minGap = 5; // Minimum gap between stacked words
+        let startTime; // Track when sketch started
 
         function setup() {
             let canvas = createCanvas(windowWidth, windowHeight);
@@ -184,6 +185,7 @@
             textSize(20);
             textAlign(LEFT, TOP);
             floorLevel = height - 20;
+            startTime = millis(); // Record start time
             
             document.getElementById('submit-btn').addEventListener('click', function() {
                 const inputText = document.getElementById('user-text').value.trim();
@@ -198,10 +200,12 @@
         function draw() {
             background(0, 0, 0, 15); // Semi-transparent for trail effect
             
-            // Draw floor
-            fill(50);
-            noStroke();
-            rect(0, floorLevel, width, height - floorLevel);
+            // Draw floor only for first 10 seconds
+            if (millis() - startTime < 10000) {
+                fill(50);
+                noStroke();
+                rect(0, floorLevel, width, height - floorLevel);
+            }
             
             // Randomly add new words from pool
             if (wordPool.length > 0 && frameCount % 10 === 0 && random() < 0.3) {
