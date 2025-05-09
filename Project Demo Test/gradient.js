@@ -7,13 +7,16 @@ const gradients = [
     'linear-gradient(135deg, #FFAFBD 0%, #FFC3A0 100%)' 
 ];
 
+let currentIndex = 0;
+
 function setBackground() {
-    const hourIndex = new Date().getHours() % gradients.length;
-    document.body.style.background = gradients[hourIndex];
+    // Cycle through gradients in order
+    document.body.style.background = gradients[currentIndex];
+    currentIndex = (currentIndex + 1) % gradients.length;
 }
 
 // Initialize on load
 window.addEventListener('DOMContentLoaded', () => {
     setBackground();
-    setInterval(setBackground, 3600000); // Change every hour
+    setInterval(setBackground, 30000); // Change every 30 seconds (30000 milliseconds)
 });

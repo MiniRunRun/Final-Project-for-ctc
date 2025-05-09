@@ -1,17 +1,33 @@
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
     margin: 0;
-    padding: 20px;
-    text-align: center;
-    transition: background 1s ease;
-    background-size: cover;
-    background-attachment: fixed;
-}
+    overflow: hidden;
+    background-color: #000;
+  }
+  
+  #get-text {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+  }
+  
+  #user-text {
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: 1px solid #fff;
+    padding: 8px;
+    width: 300px;
+    transition: crumble 0.2s ease;
+
+  }
+  
+  #submit-btn {
+    background: #333;
+    color: white;
+    border: 1px solid #fff;
+    padding: 8px 15px;
+    cursor: pointer;
+  }
 
 @keyframes crumble {
     0% {
