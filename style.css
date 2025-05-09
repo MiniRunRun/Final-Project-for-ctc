@@ -17,6 +17,8 @@ body {
 }
 
 #status {
+   cursor: pointer;
+  user-select: none;
   position: fixed;
   top: 20px;
   left: 50%;
@@ -28,6 +30,10 @@ body {
   padding: 20px;
   border-radius: 10px;
   z-index: 100;
+}
+
+#status:hover {
+  background-color: rgba(0, 0, 0, 0.8) !important;
 }
 
 #get-text {

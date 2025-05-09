@@ -17,17 +17,17 @@ function initAudioContext() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
         // Remove the event listener after first interaction
-        document.body.removeEventListener('click', initAudioContext);
+        statusElement.removeEventListener('click', initAudioContext);
     }
 }
 
 // Set up initial event listener for audio context
-document.body.addEventListener('click', initAudioContext);
+statusElement.addEventListener('click', initAudioContext);
 
 async function toggleMicrophone() {
     if (isRunning) {
         stopMicrophone();
-        statusElement.textContent = 'Microphone stopped. Click to start again.';
+        statusElement.textContent = 'Microphone stopped. Click here to start again.';
     } else {
         try {
             await startMicrophone();
@@ -107,12 +107,15 @@ function processAudio() {
 // Initial state
 overlay.style.backgroundColor = `rgba(0, 0, 0, ${minBrightness})`;
 
-// Update the click handler to properly initialize and toggle
-document.body.addEventListener('click', function() {
+// Update the click handler to only work on status element
+statusElement.addEventListener('click', function() {
     if (!audioContext) {
         initAudioContext();
-        statusElement.textContent = 'Audio ready. Click again to start microphone.';
+        statusElement.textContent = 'Audio ready. Click here to start microphone.';
     } else {
         toggleMicrophone();
     }
 });
+
+// Make status element cursor pointer to indicate it's clickable
+statusElement.style.cursor = 'pointer';
