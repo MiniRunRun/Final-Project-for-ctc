@@ -32,11 +32,12 @@ body {
 
 #get-text {
   position: fixed;
-  top: 80px;
-  left: 20px;
+  top: 15%;          /* Position at the very top */
+  left: 50%;       /* Center horizontally */
+  transform: translateX(-50%); /* Adjust for element's own width */
+  text-align: center; /* Center text within the element */
   z-index: 100;
 }
-
 #user-text {
   background: rgba(0,0,0,0.5);
   color: white;
